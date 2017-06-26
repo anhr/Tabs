@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Tabs</title>
+    <meta name="author" content="Andrej Hristoliubov anhr@mail.ru">
+    <link rel="stylesheet" href="myTabs.css" type="text/css">
+    <script type="text/javascript" src="myTabs.js"></script>
+    <script type="text/javascript">
+        function consoleLog(message) { console.log(message); }
+        function consoleError(message) {
+            //alert('ERROR: ' + message);
+            console.error(message);
+        }
+        function get_cookie(cookie_name, defaultValue) {
+            if (!navigator.cookieEnabled) {
+                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
+                //Enable cookie
+                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
+                return;
+            }
+            //http://ruseller.com/lessons.php?rub=28&id=593
+            var results = document.cookie.match('(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
+
+            if (results)
+                return (unescape(results[2]));
+            if (typeof defaultValue == 'undefined')
+                return '';
+            return defaultValue;
+        }
+
+        function SetCookie(name, value, settings) {
+            if (!navigator.cookieEnabled) {
+                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
+                //Enable cookie
+                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
+                return;
+            }
+            value = value.toString();
+            //http://ruseller.com/lessons.php?rub=28&id=593
+            var cookie_date = new Date();  // Curent date and time
+            cookie_date.setTime(cookie_date.getTime() + 1000 * 60 * 60 * 24 * 365);
+            document.cookie = name + "=" + value + ((typeof settings == 'undefined') ? '' : settings) + "; expires=" + cookie_date.toGMTString();
+            return 0;
+        }
+    </script>
+</head>
+<body>
+    <p><a href='../index.html'>Home</a> | <a href='https://github.com/anhr/Tabs' target="_blank">GitHub</a></p>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Рекламный блок -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-2575715742658777"
+         data-ad-slot="8810450588"></ins>
+    <script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <h1>JavaScript Tabs - Create Tabbed Web Pages Easily.</h1>
+
+    <h2>Different ways to create tabs and tab content. Remember selected tab</h2>
+
+    <ul id="myTabs2"></ul>
+
+    <div id="2.1">Tab Content 2.1</div>
+    <div id="2.2">Tab Content 2.2</div>
+    <div id="2.3">Tab Content 2.3</div>
+    <!-- I want to create div id="2.4" from javascript code
+        <div id="2.4">Tab Content 2.4</div>
+    -->
+
+    <script type="text/javascript">
+        myTabs.createTabs(document.getElementById("myTabs2"),
+        [
+            { tab: function () { return myTabs.createTabA({ href: "#2.1", name: 'Tab 2.1' }); } },
+            { tab: function () { return { href: "#2.2", name: 'Tab 2.2', selected: true }; } },
+            { tab: function () { return '<a href="#2.3">Tab 2.3</a>'; } },
+            {
+                tab: function () {
+                    var elA = document.createElement('a');
+                    elA.href = "#2.4";
+                    elA.innerHTML = 'Tab 2.4';
+                    return elA;
+                },
+                //div id="2.4" is not exists. Create this
+                tabContent: function (tabContentId) {
+                    var elTabContent = document.createElement('div');
+                    elTabContent.innerHTML = 'This tab content has been added by the javascript code';
+                    elTabContent.id = tabContentId;
+                    return elTabContent;
+                }
+            }
+        ], true);
+    </script>
+
+    <h2>Tabs inside tabs. Custom background of the tab</h2>
+
+    <ul id="myTabs3">
+        <li><a href="#3.0">Tab 3.0</a></li>
+    </ul>
+
+    <div id="3.0">Tab Content 3.0</div>
+    <div id="3.1">Tab Content 3.1</div>
+    <div id="3.2">
+        <div>Tab Content 3.2</div>
+        <ul id="myTabs4"></ul>
+        <div id="4.1">Tab Content 4.1</div>
+        <div id="4.2">Tab Content 4.2</div>
+        <script type="text/javascript">
+            var backgroundColor = 'white';
+            myTabs.createTabs("myTabs4",
+            [
+                { tab: function () { return { href: "#4.1", name: 'Tab 4.1', backgroundColor: backgroundColor, selected: true }; } },
+                { tab: function () { return { href: "#4.2", name: 'Tab 4.2', backgroundColor: backgroundColor }; } }
+            ]);
+        </script>
+    </div>
+
+    <script type="text/javascript">
+        myTabs.createTabs("myTabs3",
+        [
+            { tab: function () { return '<a href="#3.1">Tab 3.1</a>'; } },
+            { tab: function () { return '<a href="#3.2" class="selected">Tab 3.2</a>'; } }
+        ]);
+    </script>
+
+    <h2>Simple tabs</h2>
+
+    <ul id="tabs">
+        <li><a href="#about" class="selected">About JavaScript tabs</a></li>
+        <li><a href="#advantages">Advantages of tabs</a></li>
+        <li><a href="#usage">Using tabs</a></li>
+    </ul>
+
+    <div id="about">
+        <h2>About JavaScript tabs</h2>
+        <div>
+            <p>JavaScript tabs partition your Web page content into tabbed sections. Only one section at a time is visible.</p>
+            <p>The code is written in such a way that the page degrades gracefully in browsers that don't support JavaScript or CSS.</p>
+        </div>
+    </div>
+
+    <div id="advantages">
+        <h2>Advantages of tabs</h2>
+        <div>
+            <p>JavaScript tabs are great if your Web page contains a large amount of content.</p>
+            <p>They're also good for things like multi-step Web forms.</p>
+        </div>
+    </div>
+
+    <div id="usage">
+        <h2>Using tabs</h2>
+        <div>
+            <p>Click a tab to view the tab's content. Using tabs couldn't be easier!</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        myTabs.createTabs("tabs");
+    </script>
+</body>
+</html>
