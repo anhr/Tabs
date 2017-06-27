@@ -39,8 +39,18 @@ var myTabs = {
         if (remember)
             elUl.tabParams.remember = remember;
         var arrayElA = elUl.querySelectorAll('a');
-        for (var i = 0; i < arrayElA.length; i++) myTabs.prepareTab(arrayElA[i]);
-        if (tabs) tabs.forEach(function (tab) { elUl.appendChild(myTabs.createTab(tab, elUl)); });
+        var isSelected = false;
+        for (var i = 0; i < arrayElA.length; i++) {
+            var elA = arrayElA[i];
+            if (elA.className == 'selected') isSelected = true;
+            myTabs.prepareTab(elA);
+        }
+        if (tabs) tabs.forEach(function (tab) {
+            var elLi = myTabs.createTab(tab, elUl);
+            if (elLi.querySelector('a').className == 'selected') isSelected = true;
+            elUl.appendChild(elLi);
+        });
+        if (!isSelected) consoleError('myTabs.createTabs(...) failed! No any tab has not selected.');
     },
     createTabA: function (tab) {
         var elA = document.createElement('a');
