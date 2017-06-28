@@ -38,8 +38,8 @@ var myTabs = {
         elUl.tabParams = {};
         if (remember)
             elUl.tabParams.remember = remember;
-        var arrayElA = elUl.querySelectorAll('a');
         var isSelected = false;
+        var arrayElA = elUl.querySelectorAll('a');
         for (var i = 0; i < arrayElA.length; i++) {
             var elA = arrayElA[i];
             if (elA.className == 'selected') isSelected = true;
@@ -58,6 +58,7 @@ var myTabs = {
             consoleError('myTabs.createTabA(...) failed! tab.href: ' + tab.href)
             return null;
         }
+        elA.tabParams = {};
         elA.href = tab.href;
         if (typeof tab.name == 'undefined') {
             consoleError('myTabs.createTabA(...) failed! tab.name: ' + tab.name)
@@ -65,6 +66,7 @@ var myTabs = {
         }
         elA.innerHTML = tab.name;
         if (tab.selected) elA.className = 'selected';
+        if (tab.tabContent) elA.tabParams.tabContent = tab.tabContent;
         return elA;
     },
     createTab: function (tabObject, elUl) {
@@ -87,7 +89,8 @@ var myTabs = {
                 return null;
         }
         var elA = elLi.querySelector('a');
-        elA.tabParams = {};
+        if (typeof elA.tabParams == 'undefined')
+            elA.tabParams = {};
         if (typeof tab.backgroundColor != 'undefined')
             elA.tabParams.backgroundColorCustom = tab.backgroundColor;
         var tabContentId = this.getHash(elA.getAttribute('href'));
@@ -107,13 +110,32 @@ var myTabs = {
                 elTabContent.innerHTML = elA.innerText;
                 elTabContent.id = tabContentId;
             } else elTabContent = tabObject.tabContent(tabContentId);
-            elUl.parentElement.insertBefore(elTabContent, elUl.nextSibling);
+            if (elTabContent) this.insertTabContent(elUl, elTabContent);
+            else {
+                if (elA.className == "selected") {
+                    if (typeof elA.tabParams.tabContent == "function") {
+                        elUl.appendChild(elLi);
+                        elTabContent = elA.tabParams.tabContent(elA);
+                    }
+                    else consoleError('elA.tabParams.tabContent: ' + elA.tabParams.tabContent);
+                } else {
+                    elA.onclick = this.showTab;
+                    return elLi;
+                }
+            }
         }
         if (typeof tabObject.backgroundColor != 'undefined')
             elTabContent.style.backgroundColor = tabObject.backgroundColor;
         this.prepareTab(elA);
         return elLi;
     },
+    createTabContent: function (elA, getElTabContent) {
+        var elTabContent = getElTabContent();
+        this.insertTabContent(elA.parentElement.parentElement, elTabContent);
+        this.prepareTab(elA);
+        return elTabContent;
+    },
+    insertTabContent: function (elUl, elTabContent) { elUl.parentElement.insertBefore(elTabContent, elUl.nextSibling); },
     prepareTab: function (elA) {
         var tabContentId = this.getHash(elA.getAttribute('href'));
         var elTabContent = document.getElementById(tabContentId);
@@ -149,9 +171,16 @@ var myTabs = {
     showElTabContent: function (elA, selectedId) {
         var tabContentId = myTabs.getHash(elA.getAttribute('href'));
         var elTabContent = document.getElementById(tabContentId);
+        if (!elTabContent) {
+            if (tabContentId != selectedId)
+                return;
+            if (typeof elA.tabParams.tabContent == 'undefined')
+                consoleError('myTabs.showElTabContent(...) ' + myTabs.getHash(elA.getAttribute('href')) + ' failed! tabContentId ' + tabContentId + ' is not created');
+            else elTabContent = elA.tabParams.tabContent(elA);
+        }
         if (elTabContent.className.indexOf('tabContent') == -1) {
-            consoleError('myTabs.getElTabContent(...) ' + myTabs.getHash(elA.getAttribute('href')) + ' failed! elTabContent.className: ' + elTabContent.className);
-            return null;
+            consoleError('myTabs.showElTabContent(...) ' + myTabs.getHash(elA.getAttribute('href')) + ' failed! elTabContent.className: ' + elTabContent.className);
+            return;
         }
         var hide = ' hide';
         if (tabContentId == selectedId) {
