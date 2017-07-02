@@ -144,8 +144,7 @@ var myTabs = {
             var elTabContent = document.createElement('div');
             elTabContent.innerHTML = elA.innerText;
             elTabContent.id = tabContentId;
-            var elUl = elA.parentElement.parentElement
-            elUl.parentElement.insertBefore(elTabContent, elUl.nextSibling);
+            this.insertTabContent(elA.parentElement.parentElement, elTabContent);
         }
         elTabContent.className = 'tabContent';
         elA.onclick = this.showTab;

@@ -61,6 +61,40 @@
 
     <h1>JavaScript Tabs - Create Tabbed Web Pages Easily.</h1>
 
+    <h2>Simple tabs</h2>
+
+    <ul id="tabs">
+        <li><a href="#about" class="selected">About JavaScript tabs</a></li>
+        <li><a href="#advantages">Advantages of tabs</a></li>
+        <li><a href="#usage">Using tabs</a></li>
+    </ul>
+
+    <div id="about">
+        <h2>About JavaScript tabs</h2>
+        <div>
+            <p>JavaScript tabs partition your Web page content into tabbed sections. Only one section at a time is visible.</p>
+            <p>The code is written in such a way that the page degrades gracefully in browsers that don't support JavaScript or CSS.</p>
+        </div>
+    </div>
+
+    <div id="advantages">
+        <h2>Advantages of tabs</h2>
+        <div>
+            <p>JavaScript tabs are great if your Web page contains a large amount of content.</p>
+            <p>They're also good for things like multi-step Web forms.</p>
+        </div>
+    </div>
+
+    <div id="usage">
+        <h2>Using tabs</h2>
+        <div>
+            <p>Click a tab to view the tab's content. Using tabs couldn't be easier!</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        myTabs.createTabs("tabs");
+    </script>
+
     <h2>Different ways to create tabs and tab content. Remember selected tab</h2>
 
     <ul id="myTabs2"></ul>
@@ -143,40 +177,6 @@
             { tab: function () { return '<a href="#3.1">Tab 3.1</a>'; } },
             { tab: function () { return '<a href="#3.2" class="selected">Tab 3.2</a>'; } }
         ]);
-    </script>
-
-    <h2>Simple tabs</h2>
-
-    <ul id="tabs">
-        <li><a href="#about" class="selected">About JavaScript tabs</a></li>
-        <li><a href="#advantages">Advantages of tabs</a></li>
-        <li><a href="#usage">Using tabs</a></li>
-    </ul>
-
-    <div id="about">
-        <h2>About JavaScript tabs</h2>
-        <div>
-            <p>JavaScript tabs partition your Web page content into tabbed sections. Only one section at a time is visible.</p>
-            <p>The code is written in such a way that the page degrades gracefully in browsers that don't support JavaScript or CSS.</p>
-        </div>
-    </div>
-
-    <div id="advantages">
-        <h2>Advantages of tabs</h2>
-        <div>
-            <p>JavaScript tabs are great if your Web page contains a large amount of content.</p>
-            <p>They're also good for things like multi-step Web forms.</p>
-        </div>
-    </div>
-
-    <div id="usage">
-        <h2>Using tabs</h2>
-        <div>
-            <p>Click a tab to view the tab's content. Using tabs couldn't be easier!</p>
-        </div>
-    </div>
-    <script type="text/javascript">
-        myTabs.createTabs("tabs");
     </script>
 </body>
 </html>
