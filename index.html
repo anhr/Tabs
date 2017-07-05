@@ -136,7 +136,6 @@
                             return myTabs.createTabContent(elA, function () {
                                 var elTabContent = document.createElement('div');
                                 elTabContent.innerHTML = 'This tab content has been added when tab gets focus.';
-                                elTabContent.id = myTabs.getHash(elA.getAttribute('href'));
                                 return elTabContent;
                             })
                         }

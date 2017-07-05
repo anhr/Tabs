@@ -131,6 +131,7 @@ var myTabs = {
     },
     createTabContent: function (elA, getElTabContent) {
         var elTabContent = getElTabContent();
+        elTabContent.id = myTabs.getHash(elA.getAttribute('href'));
         this.insertTabContent(elA.parentElement.parentElement, elTabContent);
         this.prepareTab(elA);
         return elTabContent;
