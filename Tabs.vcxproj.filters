@@ -19,5 +19,6 @@
     <None Include="myTabs.css" />
     <None Include="myTabs.js" />
     <None Include="README.md" />
+    <None Include="LICENSE" />
   </ItemGroup>
 </Project>

@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="index.html" />
+    <None Include="LICENSE" />
     <None Include="myTabs.css" />
     <None Include="myTabs.js" />
     <None Include="README.md" />
