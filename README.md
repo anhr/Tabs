@@ -2,7 +2,7 @@ The cross-browser JavaScript Tabs - Create Tabbed Web Pages Easily.
 
 Thans to <a href='http://www.elated.com/articles/javascript-tabs/' target="_blank">JavaScript Tabs - Create Tabbed Web Pages Easily</a>.
 
-Example: <a href='http://anhr.ucoz.net/Tabs/' target="_blank">Tabs</a>.
+Example: <a href='https://anhr.github.io/Tabs/' target="_blank">Tabs</a>.
 
 ## On the following browsers has been tested:
 
