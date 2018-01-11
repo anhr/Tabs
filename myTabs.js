@@ -48,6 +48,8 @@ var myTabs = {
         }
         if (tabs) tabs.forEach(function (tab) {
             var elLi = myTabs.createTab(tab, elUl);
+            if (elLi == undefined)
+                return;
             if (elLi.querySelector('a').className == 'selected') isSelected = true;
             elUl.appendChild(elLi);
         });
@@ -95,6 +97,15 @@ var myTabs = {
         if (typeof tab.backgroundColor != 'undefined')
             elA.tabParams.backgroundColorCustom = tab.backgroundColor;
         var tabContentId = this.getHash(elA.getAttribute('href'));
+
+        var arLi = elUl.querySelectorAll('li');
+        for (var i =0; i < arLi.length; i++) {
+            if (this.getHash(arLi[i].querySelector('a').getAttribute('href')) == tabContentId) {
+                consoleError('duplucate tab: ' + tabContentId);
+                return;
+            }
+        };
+
         if (elUl.tabParams.remember) {
             var seletedTabId = get_cookie('seletedTab');
             if (seletedTabId != '') {
@@ -142,11 +153,14 @@ var myTabs = {
         var tabContentId = this.getHash(elA.getAttribute('href'));
         var elTabContent = document.getElementById(tabContentId);
         if (!elTabContent) {
-            consoleError('elTabContent: ' + elTabContent);
-            var elTabContent = document.createElement('div');
-            elTabContent.innerHTML = elA.innerText;
-            elTabContent.id = tabContentId;
-            this.insertTabContent(elA.parentElement.parentElement, elTabContent);
+            consoleError('elTabContent: ' + elTabContent + ' tabContentId: ' + tabContentId);
+            elTabContent = elA.tabParams.tabContent(elA);
+            if (!elTabContent) {
+                var elTabContent = document.createElement('div');
+                elTabContent.innerHTML = elA.innerText;
+                elTabContent.id = tabContentId;
+                this.insertTabContent(elA.parentElement.parentElement, elTabContent);
+            }
         }
         elTabContent.className = 'tabContent';
         elA.onclick = this.showTab;
